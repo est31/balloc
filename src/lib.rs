@@ -6,6 +6,7 @@ pub mod bounds;
 
 use bounds::AllocBound;
 use std::mem::size_of;
+use std::borrow::{Borrow, BorrowMut};
 
 pub struct AllocError;
 
@@ -21,5 +22,17 @@ impl<B :AllocBound, T> Bvec<B, T> {
 			inner : Vec::with_capacity(capacity),
 			bound,
 		})
+	}
+}
+
+impl<B :AllocBound, T> Borrow<[T]> for Bvec<B, T> {
+	fn borrow(&self) -> &[T] {
+		&self.inner
+	}
+}
+
+impl<B :AllocBound, T> BorrowMut<[T]> for Bvec<B, T> {
+	fn borrow_mut(&mut self) -> &mut [T] {
+		&mut self.inner
 	}
 }
