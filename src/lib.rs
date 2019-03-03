@@ -8,7 +8,6 @@ use bounds::AllocBound;
 use std::mem::size_of;
 use std::borrow::{Borrow, BorrowMut};
 use std::ops::{Index,IndexMut};
-use std::slice::SliceIndex;
 
 pub struct AllocError;
 
@@ -39,15 +38,16 @@ impl<B :AllocBound, T> BorrowMut<[T]> for Bvec<B, T> {
 	}
 }
 
-impl<B :AllocBound, T, I :SliceIndex<[T]>> Index<I> for Bvec<B, T> {
-	type Output = I::Output;
+impl<B :AllocBound, T, I> Index<I> for Bvec<B, T> where Vec<T> :Index<I> {
+	type Output = <Vec<T> as Index<I>>::Output;
 	fn index(&self, index :I) -> &Self::Output {
 		Index::index(&self.inner, index)
 	}
 }
 
-impl<B :AllocBound, T, I :SliceIndex<[T]>> IndexMut<I> for Bvec<B, T> {
+impl<B :AllocBound, T, I> IndexMut<I> for Bvec<B, T>
+		where Vec<T> :IndexMut<I> + Index<I> {
 	fn index_mut(&mut self, index :I) -> &mut Self::Output {
-		IndexMut::index_mut(&mut *self.inner, index)
+		<Vec<T> as IndexMut<I>>::index_mut(&mut self.inner, index)
 	}
 }
