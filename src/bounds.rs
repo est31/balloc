@@ -15,3 +15,22 @@ impl AllocBound for Unbounded {
 		// Nothing to do.
 	}
 }
+
+pub struct NumberBounded(usize);
+
+impl AllocBound for NumberBounded {
+	fn try_alloc(&mut self, amount :usize) -> Result<(), AllocError> {
+		match self.0.checked_sub(amount) {
+			Some(val) => {
+				self.0 = val;
+				Ok(())
+			},
+			None => {
+				Err(AllocError)
+			}
+		}
+	}
+	fn dealloc(&mut self, amount :usize) {
+		self.0 = self.0.saturating_add(amount);
+	}
+}
