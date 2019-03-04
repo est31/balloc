@@ -12,7 +12,7 @@ use std::ops::{Index,IndexMut};
 
 pub struct AllocError;
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct Bvec<B :AllocBound, T> {
 	inner :Vec<T>,
 	bound :B,

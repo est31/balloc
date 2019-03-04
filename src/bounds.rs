@@ -5,7 +5,7 @@ pub trait AllocBound {
 	fn dealloc(&mut self, amount :usize);
 }
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct Unbounded;
 
 impl AllocBound for Unbounded {
@@ -17,7 +17,7 @@ impl AllocBound for Unbounded {
 	}
 }
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct NumberBounded(usize);
 
 impl NumberBounded {
