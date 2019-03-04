@@ -18,6 +18,12 @@ impl AllocBound for Unbounded {
 
 pub struct NumberBounded(usize);
 
+impl NumberBounded {
+	pub fn new(bound :usize) -> Self {
+		NumberBounded(bound)
+	}
+}
+
 impl AllocBound for NumberBounded {
 	fn try_alloc(&mut self, amount :usize) -> Result<(), AllocError> {
 		match self.0.checked_sub(amount) {
