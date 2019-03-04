@@ -1,4 +1,6 @@
 use super::AllocError;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 pub trait AllocBound {
 	fn try_alloc(&mut self, amount :usize) -> Result<(), AllocError>;
@@ -40,5 +42,17 @@ impl AllocBound for NumberBounded {
 	}
 	fn dealloc(&mut self, amount :usize) {
 		self.0 = self.0.saturating_add(amount);
+	}
+}
+
+impl<B :AllocBound> AllocBound for Rc<RefCell<B>> {
+	fn try_alloc(&mut self, amount :usize) -> Result<(), AllocError> {
+		let b :&mut B = &mut *self.borrow_mut();
+		try!(b.try_alloc(amount));
+		Ok(())
+	}
+	fn dealloc(&mut self, amount :usize) {
+		let b :&mut B = &mut *self.borrow_mut();
+		b.dealloc(amount);
 	}
 }
