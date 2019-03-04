@@ -38,6 +38,12 @@ impl<B :AllocBound, T> Bvec<B, T> {
 	}
 }
 
+impl<B :AllocBound, T> Drop for Bvec<B, T> {
+	fn drop(&mut self) {
+		self.bound.dealloc(self.inner.capacity());
+	}
+}
+
 impl<B :AllocBound, T> Borrow<[T]> for Bvec<B, T> {
 	fn borrow(&self) -> &[T] {
 		&self.inner
