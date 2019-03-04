@@ -2,9 +2,10 @@
 Bounded allocation datastructures
 */
 
-pub mod bounds;
+mod bounds;
 
-use bounds::AllocBound;
+pub use bounds::{AllocBound, Unbounded, NumberBounded};
+
 use std::mem::size_of;
 use std::borrow::{Borrow, BorrowMut};
 use std::ops::{Index,IndexMut};
