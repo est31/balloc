@@ -24,6 +24,17 @@ impl<B :AllocBound, T> Bvec<B, T> {
 			bound,
 		})
 	}
+	pub fn push(&mut self, value :T) -> Result<(), AllocError> {
+		if self.inner.capacity() == self.inner.len() {
+			let to_alloc = self.inner.capacity();
+			try!(self.bound.try_alloc(to_alloc));
+			self.inner.push(value);
+			debug_assert_eq!(self.inner.capacity(), to_alloc * 2);
+		} else {
+			self.inner.push(value);
+		}
+		Ok(())
+	}
 }
 
 impl<B :AllocBound, T> Borrow<[T]> for Bvec<B, T> {
