@@ -11,4 +11,5 @@ fn test_bvec_ops() {
 	v.push(3u8).unwrap();
 	v.push(4u8).unwrap();
 	assert_eq!({ let sl :&[_] = &v[..]; sl }, &[1, 2, 3, 4]);
+	assert_eq!({ let sl :&[_] = &v; sl }, &[1, 2, 3, 4]);
 }

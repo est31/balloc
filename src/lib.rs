@@ -8,7 +8,7 @@ pub use bounds::{AllocBound, Unbounded, NumberBounded};
 
 use std::mem::size_of;
 use std::borrow::{Borrow, BorrowMut};
-use std::ops::{Index,IndexMut};
+use std::ops::{Index, IndexMut, Deref};
 
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct AllocError;
@@ -55,6 +55,14 @@ impl<B :AllocBound, T> Borrow<[T]> for Bvec<B, T> {
 impl<B :AllocBound, T> BorrowMut<[T]> for Bvec<B, T> {
 	fn borrow_mut(&mut self) -> &mut [T] {
 		&mut self.inner
+	}
+}
+
+impl<B :AllocBound, T> Deref for Bvec<B, T> {
+	type Target = [T];
+
+	fn deref(&self) -> &[T] {
+		&self.inner
 	}
 }
 
