@@ -10,6 +10,7 @@ use std::mem::size_of;
 use std::borrow::{Borrow, BorrowMut};
 use std::ops::{Index,IndexMut};
 
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct AllocError;
 
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
