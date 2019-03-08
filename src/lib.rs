@@ -39,6 +39,15 @@ impl<B :AllocBound, T> Bvec<B, T> {
 		Ok(())
 	}
 }
+impl<B :AllocBound, T :Clone> Bvec<B, T> {
+	pub fn from_elem(mut bound :B, elem :T, count :usize) -> Result<Self, AllocError> {
+		try!(bound.try_alloc(count * size_of::<T>()));
+		Ok(Self {
+			inner : vec![elem; count],
+			bound,
+		})
+	}
+}
 
 impl<B :AllocBound, T> Drop for Bvec<B, T> {
 	fn drop(&mut self) {
@@ -78,4 +87,11 @@ impl<B :AllocBound, T, I> IndexMut<I> for Bvec<B, T>
 	fn index_mut(&mut self, index :I) -> &mut Self::Output {
 		<Vec<T> as IndexMut<I>>::index_mut(&mut self.inner, index)
 	}
+}
+
+#[macro_export]
+macro_rules! bvec {
+	{$b:expr; $v:expr; $cnt:expr} => {
+		$crate::Bvec::from_elem($b, $v, $cnt)
+	};
 }

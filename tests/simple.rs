@@ -1,3 +1,4 @@
+#[macro_use]
 extern crate balloc;
 
 use balloc::{Bvec, NumberBounded};
@@ -18,4 +19,11 @@ fn test_bvec_ops() {
 	assert_eq!(&v[..], &[1, 2, 3, 4]);
 	// Test for Deref implementation
 	assert_eq!({ let sl :&[_] = &v; sl }, &[1, 2, 3, 4]);
+}
+
+#[test]
+fn test_bvec_macro() {
+	let b = NumberBounded::new_wrapped(42);
+	let v = bvec![b; 0u8; 42].unwrap();
+	assert_eq!(&v[..], &[0u8; 42][..]);
 }
