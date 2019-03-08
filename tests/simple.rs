@@ -33,3 +33,10 @@ fn test_bvec_macro() {
 		assert_eq!(&v[..], &[1, 2, 3, 4, 5, 6][..]);
 	}
 }
+
+#[test]
+fn test_alloc_error() {
+	let b = NumberBounded::new_wrapped(42);
+	let res :Result<Bvec<_, u8>, _> = Bvec::with_capacity(b, 200);
+	assert!(res.is_err());
+}
