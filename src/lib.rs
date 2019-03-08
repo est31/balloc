@@ -47,6 +47,13 @@ impl<B :AllocBound, T :Clone> Bvec<B, T> {
 			bound,
 		})
 	}
+	pub fn from_slice(mut bound :B, slice :&[T]) -> Result<Self, AllocError> {
+		try!(bound.try_alloc(slice.len() * size_of::<T>()));
+		Ok(Self {
+			inner : slice.to_vec(),
+			bound,
+		})
+	}
 }
 
 impl<B :AllocBound, T> Drop for Bvec<B, T> {
@@ -91,6 +98,9 @@ impl<B :AllocBound, T, I> IndexMut<I> for Bvec<B, T>
 
 #[macro_export]
 macro_rules! bvec {
+	{$b:expr; $($v:expr),*} => {
+		$crate::Bvec::from_slice($b, &[$($v,)*])
+	};
 	{$b:expr; $v:expr; $cnt:expr} => {
 		$crate::Bvec::from_elem($b, $v, $cnt)
 	};

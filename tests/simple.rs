@@ -24,6 +24,12 @@ fn test_bvec_ops() {
 #[test]
 fn test_bvec_macro() {
 	let b = NumberBounded::new_wrapped(42);
-	let v = bvec![b; 0u8; 42].unwrap();
-	assert_eq!(&v[..], &[0u8; 42][..]);
+	{
+		let v = bvec![b.clone(); 0u8; 42].unwrap();
+		assert_eq!(&v[..], &[0u8; 42][..]);
+	}
+	{
+		let v = bvec![b.clone(); 1, 2, 3, 4, 5, 6].unwrap();
+		assert_eq!(&v[..], &[1, 2, 3, 4, 5, 6][..]);
+	}
 }
