@@ -23,8 +23,8 @@ impl AllocBound for Unbounded {
 pub struct NumberBounded(usize);
 
 impl NumberBounded {
-	pub fn new_wrapped(bound :usize) -> Rc<RefCell<Self>> {
-		Rc::new(RefCell::new(NumberBounded(bound)))
+	pub fn new_wrapped(bound :usize) -> Rc<Cell<Self>> {
+		Rc::new(Cell::new(NumberBounded(bound)))
 	}
 }
 
