@@ -4,7 +4,8 @@ Bounded allocation datastructures
 
 mod bounds;
 
-pub use bounds::{AllocBound, Unbounded, NumberBounded, NumberBoundedRc};
+pub use bounds::{AllocBound, Unbounded, NumberBounded,
+	NumberBoundedRc, BoundsRef};
 
 use std::mem::size_of;
 use std::borrow::{Borrow, BorrowMut};
