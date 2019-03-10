@@ -57,6 +57,7 @@ impl<B :AllocBound> AllocBound for Rc<RefCell<B>> {
 	}
 }
 
+pub type NumberBoundedRc = Rc<Cell<NumberBounded>>;
 
 impl<B :AllocBound + Copy> AllocBound for Rc<Cell<B>> {
 	fn try_alloc(&mut self, amount :usize) -> Result<(), AllocError> {
