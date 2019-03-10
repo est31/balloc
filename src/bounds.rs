@@ -72,3 +72,16 @@ impl<B :AllocBound + Copy> AllocBound for Rc<Cell<B>> {
 		self.set(val);
 	}
 }
+
+/**
+Trait for shareable bounds
+
+This trait allows you to reason about bounds that, on clone,
+replicate a reference instead of replicating the
+bounds themselves. Copying the bounds themselves would
+automatically double the amount of free space.
+*/
+pub trait BoundsRef :AllocBound + Clone {}
+
+impl<B :AllocBound> BoundsRef for Rc<RefCell<B>> {}
+impl<B :AllocBound + Copy> BoundsRef for Rc<Cell<B>> {}
