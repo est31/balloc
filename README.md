@@ -2,6 +2,8 @@
 
 **Bounded allocation for Rust.**
 
+[docs.rs](https://docs.rs/balloc)
+
 This crate provides a wrapper over `Vec<T>` so that boundedness constraints can be enforced.
 
 Such constraints are useful when dealing with untrusted input where the other party
